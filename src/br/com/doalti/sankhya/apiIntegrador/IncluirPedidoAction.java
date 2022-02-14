@@ -576,7 +576,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 							status = "Reprovado";
 						}
 
-						if (aprovado == true) {
+						if (aprovado == true || cancelado == false) {
 							if (cliente_obs.equals("Boleto Ã")) {
 								tipVend = new BigDecimal(671);
 							} else if (cliente_obs.equals("Boleto 21")) {
@@ -835,7 +835,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 						} else {
 							System.out.println("numero pedido" + numeroPed);
 							boolean insert = nativeSql.executeUpdate(
-									"INSERT INTO AD_LOG (pedidoOrga, pedidoProd, Status, descricao)" + "VALUES (" + null
+									"INSERT INTO AD_LOG (pedidoOrga, pedidoProd, Status, descricao)" + "VALUES (" + numeroPed
 											+ ", " + null + ", ' Reprovado', 'Pedidos Com status Reprovado')");
 							 contexto.setMensagemRetorno("Nenhum Pedido para ser integrado agora, ou Nao aprovados");
 						}
