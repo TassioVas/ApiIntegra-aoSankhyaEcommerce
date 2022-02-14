@@ -207,19 +207,19 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 		System.out.println("chave api " + chaveAPI);
 		try {
 			// pedido_id = 20;
-
-			ResultSet query5 = nativeSql.executeQuery("SELECT CAST(GETDATE() AS DATE) AS NOW FROM DUAL ");
-
+			
+			ResultSet query5 = nativeSql.executeQuery("SELECT MAX(pedidoOrga) AS CONTADOR FROM AD_LOG ");
+			
 			if (query5.next()) {
-				//pedido_id = query5.getInt("contador");
-				data_criado = query5.getString("NOW");
+				pedido_id = query5.getInt("CONTADOR");
+				//data_criado = query5.getString("NOW");
 				System.out.println(query5);
 				System.out.println("pedido_id " + pedido_id);
 
 				System.out.println("INICIOU O CÓDIGO");
 				// url = "/pedido";
-				url = "/pedido/search/?since_criado="+data_criado+"&limit=20";
-				//url = "/pedido/search/?since_numero=" + (pedido_id + 1) + "&limit=20";
+				//url = "/pedido/search/?since_criado="+data_criado+"&limit=20";
+				url = "/pedido/search/?since_numero=" + (pedido_id + 1) + "&limit=1";
 				System.out.println("Url começo do cidgo " + url);
 
 				String metodo = "GET";
@@ -837,11 +837,10 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 							boolean insert = nativeSql.executeUpdate(
 									"INSERT INTO AD_LOG (pedidoOrga, pedidoProd, Status, descricao)" + "VALUES (" + null
 											+ ", " + null + ", ' Reprovado', 'Pedidos Com status Reprovado')");
-							// contexto.setMensagemRetorno("Nenhum Pedido para ser integrado agora, ou Nao
-							// aprovados");
+							 contexto.setMensagemRetorno("Nenhum Pedido para ser integrado agora, ou Nao aprovados");
 						}
 					}
-					// contexto.setMensagemRetorno("Todos Pedidos Integrados");
+					 contexto.setMensagemRetorno("Todos Pedidos Integrados");
 					// contexto.setMensagemRetorno(" finalizado! notas incluidas com sucesso");
 
 					// contexto.setMensagemRetorno(" Pedido ja incluso no pedido, ou Com status de
@@ -853,7 +852,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 					boolean insert = nativeSql
 							.executeUpdate("INSERT INTO AD_LOG (pedidoOrga, pedidoProd, Status, descricao)" + "VALUES ("
 									+ null + ", " + null + ", '" + status + "', '" + e.getMessage() + "')");
-					// contexto.setMensagemRetorno(e.getMessage());
+					contexto.setMensagemRetorno(e.getMessage());
 
 				} catch (java.lang.Exception e2) {
 					// TODO Auto-generated catch block
@@ -861,7 +860,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 					boolean insert = nativeSql
 							.executeUpdate("INSERT INTO AD_LOG (pedidoOrga, pedidoProd, Status, descricao)" + "VALUES ("
 									+ null + ", " + null + ", '" + status + "', '" + e2.getMessage() + "')");
-					// contexto.setMensagemRetorno(e2.getMessage());
+					contexto.setMensagemRetorno(e2.getMessage());
 				}
 			}
 
@@ -869,7 +868,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 
 		Exception e) {
 			e.printStackTrace();
-			// contexto.setMensagemRetorno("Erro PP : " + e.getMessage());
+			 contexto.setMensagemRetorno("Erro PP : " + e.getMessage());
 			System.out.println("LINHA 307");
 			try {
 				boolean insert = nativeSql
@@ -879,7 +878,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			// contexto.setMensagemRetorno(e.getMessage());
+			contexto.setMensagemRetorno(e.getMessage());
 		} catch (java.lang.Exception e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
@@ -891,7 +890,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// contexto.setMensagemRetorno(e3.getMessage());
+			 contexto.setMensagemRetorno(e3.getMessage());
 		} finally {
 			JdbcWrapper.closeSession(JDBC);
 			JapeSession.close(hnd);
