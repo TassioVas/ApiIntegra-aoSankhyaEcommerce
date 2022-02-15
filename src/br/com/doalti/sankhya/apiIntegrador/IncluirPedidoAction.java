@@ -160,6 +160,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 	boolean aplicar_no_total;
 	boolean ativo;
 	boolean disponivel;
+	double valor_envio;
 
 	// private Object sctx;
 
@@ -538,15 +539,15 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 							System.out.println("LINHA 627 valor_desconto : " + valor_desconto);
 						}
 						if (!objPed.isNull("valor_envio")) {
-							double valor_envio = objPed.getDouble("valor_envio");
+							valor_envio = objPed.getDouble("valor_envio");
 							System.out.println("LINHA 633 valor_envio : " + valor_envio);
 						}
 						if (!objPed.isNull("valor_subtotal")) {
-							double valor_subtotal = objPed.getDouble("valor_subtotal");
+						   valor_subtotal = objPed.getDouble("valor_subtotal");
 							System.out.println("LINHA 639 valor_subtotal : " + valor_subtotal);
 						}
 						if (!objPed.isNull("valor_total")) {
-							double valor_total = objPed.getDouble("valor_total");
+							 valor_total = objPed.getDouble("valor_total");
 							System.out.println("LINHA 645 CLIENTE : " + valor_total);
 						}
 
@@ -576,7 +577,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 							status = "Reprovado";
 						}
 
-						if (aprovado == true || cancelado == false) {
+						if (aprovado == true && cancelado == false) {
 							if (cliente_obs.equals("Boleto Ã")) {
 								tipVend = new BigDecimal(671);
 							} else if (cliente_obs.equals("Boleto 21")) {
@@ -662,6 +663,7 @@ public class IncluirPedidoAction implements AcaoRotinaJava {
 								cabVO.setProperty("DTALTER", agora);
 								cabVO.setProperty("CODPARCTRANSP", BigDecimal.valueOf(4129L));
 								cabVO.setProperty("VLRDESCTOT", new BigDecimal(vlrDesc));
+								cabVO.setProperty("VLRFRETE", new BigDecimal(valor_envio));
 								System.out.println("passou do cabVO");
 								CACHelper cacHelper = new CACHelper();
 
